@@ -1,13 +1,8 @@
 name: 'Terraform GitHub Actions'
 on:
   push:
-    paths:
-    - 'reader/**'
-    - 'consumer/**'
-  pull_request:
-    paths:
-    - 'reader/**'
-    - 'consumer/**'
+    branches:
+      - main
 
 jobs:
   terraform:
@@ -21,18 +16,14 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: Extract folder name
-      id: extract_folder
-      run: echo "folder=$(echo ${GITHUB_HEAD_REF#refs/heads/})" >> $GITHUB_ENV
-
     - name: Terraform Init
-      run: cd "$folder" && terraform init
+      run: terraform init
 
     - name: Terraform Validate
-      run: cd "$folder" && terraform validate -no-color
+      run: terraform validate -no-color
 
     - name: Terraform Plan
-      run: cd "$folder" && terraform plan -no-color
+      run: terraform plan -no-color
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
