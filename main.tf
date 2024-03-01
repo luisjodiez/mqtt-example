@@ -2,7 +2,7 @@
 resource "aws_lambda_function" "my_lambda" {
     function_name = var.function_name
     runtime       = var.runtime
-    handler       = "index.handler"
+    handler       = "reader.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.filename
 }
