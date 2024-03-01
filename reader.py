@@ -1,5 +1,7 @@
 import os
-import paho.mqtt.client as mqtt
+from paho import mqtt
+import paho.mqtt.client as paho
+import ssl
 
 def lambda_handler(event, context):
     file_path = "plc.log"
@@ -17,12 +19,14 @@ def on_connect(client, userdata, flags, rc, properties):
     print(f"Connected with result code {rc}")
 
 def read_file_and_publish(file_path, broker_address, topic, username, password):
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    client = paho.Client(paho.CallbackAPIVersion.VERSION2)
+    sslSettings = ssl.SSLContext(mqtt.client.ssl.PROTOCOL_TLS)
+    client.tls_set_context(sslSettings)
     client.username_pw_set(username, password)
     client.on_connect = on_connect
     client.connect(broker_address, 8883)
     client.loop_start()
-
+    
     with open(file_path, 'r') as file:
         for line in file:
             message = line.strip()
