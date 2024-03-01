@@ -13,7 +13,7 @@ variable "function_name" {
 variable "filename" {
     description = "The file for the function"
     type        = string
-    default     = "reader.py"
+    default     = "bundle.zip"
 }
 
 variable "role_name" {
