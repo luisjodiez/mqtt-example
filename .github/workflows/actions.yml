@@ -23,13 +23,13 @@ jobs:
     - name: Terraform Validate
       run: terraform validate -no-color
       env:
-        TF_VAR_mqtt_username: ${{ secrets.mqtt_username }}
-        TF_VAR_mqtt_password: ${{ secrets.mqtt_password }}
+        TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
+        TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
 
     - name: Terraform Apply
       run: terraform apply -no-color -auto-approve
       env:
-        TF_VAR_mqtt_username: ${{ secrets.mqtt_username }}
-        TF_VAR_mqtt_password: ${{ secrets.mqtt_password }}
+        TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
+        TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
