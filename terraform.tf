@@ -1,5 +1,3 @@
-
-# Set up backend for aws provider using s3 bucket and dynamodb table
 terraform {
   backend "s3" {
     bucket = "ljdb-tfstate-bucket"
@@ -8,6 +6,7 @@ terraform {
     dynamodb_table = "terraform-state-lock"
   }
 }
+
 terraform {
   required_providers {
     aws = {
