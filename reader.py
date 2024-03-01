@@ -12,9 +12,13 @@ def publish_message(client, topic, message):
     client.publish(topic, message)
     print(f"Published: {message}")
 
+def on_connect(client, userdata, flags, rc, properties):
+    print(f"Connected with result code {rc}")
+
 def read_file_and_publish(file_path, broker_address, topic):
-    client = mqtt.Client()
-    client.connect(broker_address)
+    client = mqtt.Client(protocol=mqtt.MQTTv5)
+    client.on_connect = on_connect
+    client.connect(broker_address, 8883)
     client.loop_start()
 
     with open(file_path, 'r') as file:
@@ -24,4 +28,3 @@ def read_file_and_publish(file_path, broker_address, topic):
             time.sleep(random.uniform(0.1, 1))
 
     client.loop_stop()
-    client.disconnect()
