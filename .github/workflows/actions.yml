@@ -2,11 +2,11 @@ name: 'Terraform GitHub Actions'
 on:
   push:
     paths:
-    - 'broker/**'
+    - 'reader/**'
     - 'consumer/**'
   pull_request:
     paths:
-    - 'broker/**'
+    - 'reader/**'
     - 'consumer/**'
 
 jobs:
