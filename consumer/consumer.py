@@ -1,6 +1,5 @@
 import paho.mqtt.client as mqtt
 from flask import Flask, jsonify
-import json
 
 app = Flask(__name__)
 
