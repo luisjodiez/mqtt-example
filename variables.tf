@@ -21,3 +21,13 @@ variable "role_name" {
     type        = string
     default     = "reader-lambda-role"
 }
+
+variable "mqtt_username" {
+    description = "The username for the MQTT broker"
+    type        = string
+}
+
+variable "mqtt_password" {
+    description = "The password for the MQTT broker"
+    type        = string
+}

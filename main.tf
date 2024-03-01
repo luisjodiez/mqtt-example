@@ -5,6 +5,12 @@ resource "aws_lambda_function" "my_lambda" {
     handler       = "reader.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.filename
+    environment {
+        variables = {
+            USERNAME       = var.mqtt_username
+            PASSWORD       = var.mqtt_password
+        }
+    }
 }
 
 # Create the Lambda function URL
