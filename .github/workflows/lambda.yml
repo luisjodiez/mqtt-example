@@ -1,0 +1,50 @@
+name: 'AWS Lambda Terraform GitHub Actions'
+on: 
+  push:
+    paths:
+      - 'producer/**'
+      - 'http_svc/**'
+
+jobs:
+  find-dirs:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: set-matrix
+      run: |
+        changed_dirs=$(git diff --dirstat=files,0 HEAD~1..HEAD | cut -d% -f2)
+        changed_dirs_json=$(echo $changed_dirs | jq -R -s -c 'split("\n")[:-1]')
+        echo "::set-output name=matrix::${changed_dirs_json}"
+
+  terraform:
+    name: 'Terraform'
+    needs: find-dirs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: ${{fromJson(needs.find-dirs.outputs.matrix)}}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Terraform Init
+      run: cd ${{ matrix.dir }} && terraform init -no-color
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Terraform Validate
+      run: cd ${{ matrix.dir }} && terraform validate -no-color
+      env:
+        TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
+        TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
+
+    - name: Terraform Apply
+      run: cd ${{ matrix.dir }} && terraform apply -no-color -auto-approve
+      env:
+        TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
+        TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
