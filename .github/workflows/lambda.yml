@@ -1,9 +1,8 @@
 name: 'AWS Lambda Terraform GitHub Actions'
 on: 
   push:
-    paths:
-      - 'producer/**'
-      - 'http_svc/**'
+    branches:
+      - main
 
 jobs:
   find-dirs:
@@ -17,7 +16,7 @@ jobs:
     - name: Set Matrix
       id: set-matrix
       run: |
-        dirs=$(cd ${{ github.workspace }} && git diff --name-only HEAD^ HEAD | grep -E 'producer|http_svc' | awk -F/ '{print $1}' | sort -u)
+        dirs=$(cd ${{ github.workspace }} && find . -type f -name 'main.tf' -exec dirname {} \; | sort -u)
         echo "::set-output name=matrix::${dirs}"
 
   terraform:
