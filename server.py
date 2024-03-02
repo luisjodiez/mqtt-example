@@ -3,6 +3,13 @@ import os
 import boto3
 from dotenv import load_dotenv
 from collections import Counter
+import decimal
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            return str(o)
+        return super().default(o)
 
 load_dotenv()
 dynamodb = boto3.resource('dynamodb', 
@@ -12,26 +19,25 @@ dynamodb = boto3.resource('dynamodb',
 
 def lambda_handler(event, context):
     if event['rawPath'] == '/metrics':
-        body = metrics()
+        response = json.loads(metrics())
     elif event['rawPath'] == '/':
-        body = info()
+        response = [{k: v} for k, v in info().items()]
     else:
-        body = 'Invalid path'
+        response = ['Invalid path']
+    print(response)
+    body = '\n'.join([json.dumps(item, cls=DecimalEncoder) for item in response])
     return {
         'statusCode': 200,
-        'body': json.dumps(body)
+        'body': body
     }
 
 def metrics():
     table = dynamodb.Table('error_table')
     items = table.scan()['Items']
-    metrics = {item['MetricName']: item['Value'] for item in items}
-    return json.dumps(metrics)
+    return json.dumps(items, cls=DecimalEncoder)
 
 def info():
     table = dynamodb.Table('mqtt_table')
     items = table.scan()['Items']
     key_counts = Counter(item['Key'] for item in items)
-    return json.dumps(dict(key_counts))
-
-    
+    return dict(key_counts)
