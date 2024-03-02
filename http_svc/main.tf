@@ -5,7 +5,7 @@ resource "aws_lambda_function" "my_lambda" {
     handler       = "server.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.filename
-    source_code_hash = "1ZssqUIR0W8+EmNo2QypYENtV7hEmyH4RjKJWSenF+0="
+    source_code_hash = "tC1PRWY143sVZ/TMy32dbiMvfrXHm0a51xBpQgb6aGY="
 }
 
 # Create the Lambda function URL

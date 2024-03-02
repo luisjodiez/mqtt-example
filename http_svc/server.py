@@ -14,14 +14,14 @@ dynamodb = boto3.resource('dynamodb',
 
 @app.route('/metrics')
 def metrics():
-    table = dynamodb.Table('MetricsTable')
+    table = dynamodb.Table('error_table')
     items = table.scan()['Items']
     metrics = {item['MetricName']: item['Value'] for item in items}
     return jsonify(metrics)
 
 @app.route('/info')
 def info():
-    table = dynamodb.Table('InfoTable')
+    table = dynamodb.Table('mqtt_table')
     items = table.scan()['Items']
     key_counts = Counter(item['Key'] for item in items)
     return jsonify(dict(key_counts))
