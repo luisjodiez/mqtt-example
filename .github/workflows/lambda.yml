@@ -14,11 +14,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    # detect directories with changes from the last commit
     - name: Set Matrix
       id: set-matrix
       run: |
-        dirs=$(git diff --name-only HEAD^ HEAD | grep -E 'producer|http_svc' | awk -F/ '{print $1}' | sort -u)
+        dirs=$(cd ${{ github.workspace }} && git diff --name-only HEAD^ HEAD | grep -E 'producer|http_svc' | awk -F/ '{print $1}' | sort -u)
         echo "::set-output name=matrix::${dirs}"
 
   terraform:
