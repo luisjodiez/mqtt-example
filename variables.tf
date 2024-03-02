@@ -4,22 +4,34 @@ variable "runtime" {
     default     = "python3.12"
 }
 
-variable "function_name" {
+variable "server_function_name" {
+    description = "The name of the function"
+    type        = string
+    default     = "server-lambda-function"
+}
+
+variable "server_filename" {
+    description = "The file for the function"
+    type        = string
+    default     = "server.zip"
+}
+
+variable "reader_function_name" {
     description = "The name of the function"
     type        = string
     default     = "reader-lambda-function"
 }
 
-variable "filename" {
+variable "reader_filename" {
     description = "The file for the function"
     type        = string
-    default     = "bundle.zip"
+    default     = "reader.zip"
 }
 
-variable "role_name" {
+variable "lambda_role_name" {
     description = "The name of the role"
     type        = string
-    default     = "reader-lambda-role"
+    default     = "lambda-role"
 }
 
 variable "mqtt_username" {

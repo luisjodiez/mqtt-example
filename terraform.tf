@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "ljdb-tfstate-bucket"
-    key    = "reader/terraform.tfstate"
+    key    = "terraform.tfstate"
     region = "eu-west-1"
     dynamodb_table = "terraform-state-lock"
   }

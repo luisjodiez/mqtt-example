@@ -1,12 +1,11 @@
 # Create the Lambda function
 resource "aws_lambda_function" "my_lambda" {
-    function_name = var.function_name
+    function_name = var.server_function_name
     runtime       = var.runtime
-    handler       = "reader.lambda_handler"
+    handler       = "server.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
-    filename      = var.filename
-    source_code_hash = "1ZssqUIR0W8+EmNo2QypYENtV7hEmyH4RjKJWSenF+0="
-    timeout = 30
+    filename      = var.server_filename
+    source_code_hash = "9/gwhDBVoxLA6+yN6kWp+O8VPQablGGpHS9VyLoEyIo="
     environment {
         variables = {
             USERNAME       = var.mqtt_username
@@ -23,7 +22,7 @@ resource "aws_lambda_function_url" "my_lambda_url" {
 
 # Create the aws_iam_role referenced in aws_lambda_function
 resource "aws_iam_role" "lambda_role" {
-    name = var.role_name
+    name = var.lambda_role_name
     assume_role_policy = jsonencode({
         Version = "2012-10-17",
         Statement = [

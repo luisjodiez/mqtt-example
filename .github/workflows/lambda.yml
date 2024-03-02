@@ -5,45 +5,27 @@ on:
       - main
 
 jobs:
-  find-dirs:
-    name: 'Find Directories'
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set Matrix
-      id: set-matrix
-      run: |
-        dirs=$(cd ${{ github.workspace }} && find . -type f -name 'main.tf' -exec dirname {} \; | sort -u)
-        echo "matrix=${dirs}" >> $GITHUB_ENV
-
   terraform:
     name: 'Terraform'
-    needs: find-dirs
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dir: ${{fromJson(needs.find-dirs.outputs.matrix)}}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Terraform Init
-      run: cd ${{ matrix.dir }} && terraform init -no-color
+      run: terraform init -no-color
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Terraform Validate
-      run: cd ${{ matrix.dir }} && terraform validate -no-color
+      run: terraform validate -no-color
       env:
         TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
         TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
 
     - name: Terraform Apply
-      run: cd ${{ matrix.dir }} && terraform apply -no-color -auto-approve
+      run: terraform apply -no-color -auto-approve
       env:
         TF_VAR_mqtt_username: ${{ secrets.TF_VAR_mqtt_username }}
         TF_VAR_mqtt_password: ${{ secrets.TF_VAR_mqtt_password }}
