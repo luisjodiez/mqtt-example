@@ -5,7 +5,7 @@ resource "aws_lambda_function" "server_lambda" {
     handler       = "server.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.server_filename
-    source_code_hash = "bsSHEccveyoMpRE3gCaciAZ0fjHu0U4JcFFa+KnXTYQ="
+    source_code_hash = "Dim1Q2U+ffBSLyaREvODAxZDPmYvWyKc00OBbZUxIe8="
     environment {
         variables = {
             USERNAME       = var.mqtt_username

@@ -12,6 +12,9 @@ dynamodb = boto3.resource('dynamodb',
                             aws_access_key_id=os.environ.get('APIKEY'), 
                             aws_secret_access_key=os.environ.get('SECRETKEY'))
 
+def lambda_handler(event, context):
+    app.run()
+    
 @app.route('/metrics')
 def metrics():
     table = dynamodb.Table('error_table')
