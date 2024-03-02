@@ -7,16 +7,19 @@ on:
 
 jobs:
   find-dirs:
+    name: 'Find Directories'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-    - uses: actions/checkout@v4
-    - id: set-matrix
+    - name: Checkout
+      uses: actions/checkout@v4
+    # detect directories with changes from the last commit
+    - name: Set Matrix
+      id: set-matrix
       run: |
-        changed_dirs=$(git diff --dirstat=files,0 HEAD~1..HEAD | cut -d% -f2)
-        changed_dirs_json=$(echo $changed_dirs | jq -R -s -c 'split("\n")[:-1]')
-        echo "::set-output name=matrix::${changed_dirs_json}"
+        dirs=$(git diff --name-only HEAD^ HEAD | grep -E 'producer|http_svc' | awk -F/ '{print $1}' | sort -u)
+        echo "::set-output name=matrix::${dirs}"
 
   terraform:
     name: 'Terraform'
