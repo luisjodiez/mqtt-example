@@ -43,3 +43,9 @@ variable "mqtt_password" {
     description = "The password for the MQTT broker"
     type        = string
 }
+
+variable "dynamodb_policy_name" {
+    type        = string
+    description = "Name of the DynamoDB policy"
+    default     = "dynamodb-policy"
+}

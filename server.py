@@ -1,34 +1,37 @@
+import json
 import os
 import boto3
-from flask import Flask, jsonify
 from dotenv import load_dotenv
 from collections import Counter
 
 load_dotenv()
-app = Flask(__name__)
-
 dynamodb = boto3.resource('dynamodb', 
                             region_name=os.environ.get('REGION'), 
                             aws_access_key_id=os.environ.get('APIKEY'), 
                             aws_secret_access_key=os.environ.get('SECRETKEY'))
 
 def lambda_handler(event, context):
-    app.run()
-    
-@app.route('/metrics')
+    if event['rawPath'] == '/metrics':
+        body = metrics()
+    elif event['rawPath'] == '/':
+        body = info()
+    else:
+        body = 'Invalid path'
+    return {
+        'statusCode': 200,
+        'body': json.dumps(body)
+    }
+
 def metrics():
     table = dynamodb.Table('error_table')
     items = table.scan()['Items']
     metrics = {item['MetricName']: item['Value'] for item in items}
-    return jsonify(metrics)
+    return json.dumps(metrics)
 
-@app.route('/info')
 def info():
     table = dynamodb.Table('mqtt_table')
     items = table.scan()['Items']
     key_counts = Counter(item['Key'] for item in items)
-    return jsonify(dict(key_counts))
+    return json.dumps(dict(key_counts))
 
-if __name__ == '__main__':
-    app.run()
     
