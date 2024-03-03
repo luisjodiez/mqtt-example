@@ -14,11 +14,11 @@ jobs:
 
     - name: Compute server SHA
       run: |
-        echo "TF_ENV_server_code_hash=$(sha256sum  | awk '{print $1}')" >> $GITHUB_ENV
+        echo "TF_VAR_server_code_hash=$(sha256sum  | awk '{print $1}')" >> $GITHUB_ENV
 
     - name: Compute reader SHA
       run: |
-        echo "TF_ENV_reader_code_hash=$(sha256sum  | awk '{print $1}')" >> $GITHUB_ENV
+        echo "TF_VAR_reader_code_hash=$(sha256sum  | awk '{print $1}')" >> $GITHUB_ENV
   
     - name: Terraform Init
       run: terraform init -no-color
