@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     read_file_and_publish(file_path, broker_address, topic, username, password)
 
 def publish_message(client, topic, message):
-    client.publish(topic, message)
+    client.publish(topic, message, qos=1)
     print(f"Published: {message}")
 
 def on_connect(client, userdata, flags, rc, properties):
