@@ -34,6 +34,12 @@ variable "lambda_role_name" {
     default     = "lambda-role"
 }
 
+variable "dynamodb_policy_name" {
+    type        = string
+    description = "Name of the DynamoDB policy"
+    default     = "dynamodb-policy"
+}
+
 variable "mqtt_username" {
     description = "The username for the MQTT broker"
     type        = string
@@ -44,8 +50,8 @@ variable "mqtt_password" {
     type        = string
 }
 
-variable "dynamodb_policy_name" {
+variable "mqtt_broker" {
+    description = "The address of the MQTT broker"
     type        = string
-    description = "Name of the DynamoDB policy"
-    default     = "dynamodb-policy"
 }
+

@@ -5,12 +5,13 @@ resource "aws_lambda_function" "reader_lambda" {
     handler       = "reader.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.reader_filename
-    source_code_hash = "b09vA4HpR9ttnbdsqX3i3LOlbZMncjjezdPjLf5ICq8="
+    source_code_hash = "DTAjMhojX6zf70stQK3WWlpKeaBTJ8M0xzILzYx8a6Y="
     timeout = 30
     environment {
         variables = {
             USERNAME       = var.mqtt_username
             PASSWORD       = var.mqtt_password
+            BROKER         = var.mqtt_broker
         }
     }
 }

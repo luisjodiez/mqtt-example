@@ -3,7 +3,7 @@ from paho.mqtt import client as paho_client
 
 def lambda_handler(event, context):
     file_path = "plc.log"
-    broker_address = "1c0bdb311ba64e2397b72acfb50f55b1.s1.eu.hivemq.cloud"
+    broker_address = os.environ.get('BROKER')
     topic = "topic"
     username = os.getenv('USERNAME')
     password = os.getenv('PASSWORD')
