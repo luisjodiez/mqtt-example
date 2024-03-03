@@ -22,6 +22,16 @@ variable "reader_function_name" {
     default     = "reader-lambda-function"
 }
 
+variable "server_code_hash" {
+    description = "The hash of the code for the server function"
+    type        = string
+}
+
+variable "reader_code_hash" {
+    description = "The hash of the code for the reader function"
+    type        = string
+}
+
 variable "reader_filename" {
     description = "The file for the function"
     type        = string

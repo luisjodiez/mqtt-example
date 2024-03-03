@@ -5,7 +5,7 @@ resource "aws_lambda_function" "reader_lambda" {
     handler       = "reader.lambda_handler"
     role          = aws_iam_role.lambda_role.arn
     filename      = var.reader_filename
-    source_code_hash = "Lf99g5h9SfvzoXp7+xxaRJR4dYFKI1J0AJvvRzZuIGc="
+    source_code_hash = var.reader_code_hash
     timeout = 30
     environment {
         variables = {
