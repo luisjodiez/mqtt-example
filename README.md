@@ -46,3 +46,11 @@ sha256sum bundle.zip | cut -d ' ' -f 1 | xxd -r -p | base64
 
 Then, update it in the terraform code and commit the changes. \
 On push, the actions will update the lambda code.
+
+## Next Steps
+
+- Set up IaC for a consumer
+  - Oracle Cloud has a free tier compute instance
+- Delete dynamodb persistence in favor of QoS 1.
+- Implement requests_per_second metric.
+- Implement unit testing.
