@@ -35,3 +35,5 @@ terraform.rc
 
 # Ignore dependency folder
 dependencies/
+# Ignore .env file
+.env

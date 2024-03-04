@@ -66,9 +66,9 @@ if __name__ == "__main__":
     broker_url = os.environ.get('BROKER')
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
-    dynamo = boto3.resource('dynamodb', 
-                            region_name=os.environ.get('REGION'), 
-                            aws_access_key_id=os.environ.get('APIKEY'), 
+    dynamo = boto3.resource('dynamodb',
+                            region_name=os.environ.get('REGION'),
+                            aws_access_key_id=os.environ.get('APIKEY'),
                             aws_secret_access_key=os.environ.get('SECRETKEY'))
     consumer = MqttConsumer(broker_url, username, password, dynamo)
     print("Created consumer. Starting consumer...")

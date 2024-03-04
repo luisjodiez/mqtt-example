@@ -34,18 +34,14 @@ You will also need to define the following secrets in a github repo for the acti
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 
-## Update
+## Run the example
 
-In order to change the code from the aws lambda, you need to update the zip bundle. \
-The zip contains the python code, additional files and dependencies. \
-Once the zip is prepared, you have to run this oneliner to get the hash:
-
-```bash
-sha256sum bundle.zip | cut -d ' ' -f 1 | xxd -r -p | base64
-```
-
-Then, update it in the terraform code and commit the changes. \
-On push, the actions will update the lambda code.
+- Get a HiveMQ account for your broker.
+- Clone the repo, set up your secrets.
+- Set up your .env file for the docker image.
+- Once Terraform has run, build & run the docker image.
+- Run the reader lambda to see the data flow.
+- Access your server lambdas url on "/" and "/metrics"
 
 ## Next Steps
 
