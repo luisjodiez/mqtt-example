@@ -34,6 +34,18 @@ You will also need to define the following secrets in a github repo for the acti
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 
+Also, for local terraform commands (e.g. destroy to clean up), you would need the following:
+
+```bash
+export TF_VAR_server_code_hash=
+export TF_VAR_reader_code_hash=
+export TF_VAR_mqtt_username=
+export TF_VAR_mqtt_password=
+export TF_VAR_mqtt_broker=
+```
+
+Note: I am assuming you have awscli configured.
+
 ## Run the example
 
 - Get a HiveMQ account for your broker.
